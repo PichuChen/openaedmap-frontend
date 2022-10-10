@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import '@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css';
 import './map.css';
 import styleJson from './map_style';
 import SidebarLeft from './sidebar-left';
@@ -14,6 +15,8 @@ import { BUTTONS_TYPE_NONE, BUTTONS_TYPE_ADD_AED, BUTTONS_TYPE_MOBILE_STEP_1 } f
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import maplibregl from '!maplibre-gl';      // ! is important here
 import maplibreglWorker from 'maplibre-gl/dist/maplibre-gl-csp-worker';
+import MaplibreGeocoder from '@maplibre/maplibre-gl-geocoder';
+import {nominatimGeocoder} from "./nominatimGeocoder";
 
 maplibregl.workerClass = maplibreglWorker;
 // -------------------------------------------------------------------
@@ -209,6 +212,10 @@ export default function Map({ auth, openChangesetId, setOpenChangesetId, modalSt
           maxZoom: 19,
           maplibreLogo: false,
         });
+
+        map.current.addControl(new MaplibreGeocoder(nominatimGeocoder, {
+            maplibregl: maplibregl,
+        }));
 
         // how fast mouse scroll wheel zooms
         map.current.scrollZoom.setWheelZoomRate(1);
