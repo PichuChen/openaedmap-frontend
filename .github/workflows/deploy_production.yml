@@ -3,7 +3,7 @@ name: Deploy to production env
 on:
   push:
     branches:
-    - main#pipelinechange
+    - main
     paths:
     - src/**
     - public/**
